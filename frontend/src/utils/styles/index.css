@@ -1,0 +1,13 @@
+@import './variables.css';
+
+body {
+	margin: 0;
+	/* width: 1440px; */
+	font-family: 'Roboto', 'Helvetica Neue', sans-serif;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+code {
+	font-family: 'Roboto', 'Courier New', monospace;
+}

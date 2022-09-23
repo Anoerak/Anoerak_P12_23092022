@@ -1,0 +1,37 @@
+.header {
+	display: flex;
+	position: relative;
+	z-index: 3;
+	padding: 18px 0 12px 28px;
+	background-color: var(--primary-color);
+}
+
+.header .header__logo {
+	width: 178px;
+	height: 61px;
+}
+
+.header nav {
+	width: 100%;
+}
+
+.header nav ul {
+	display: flex;
+	justify-content: space-around;
+}
+
+.header nav ul a.active {
+	color: var(--secondary-color);
+}
+
+.header nav ul a {
+	text-decoration: none;
+	font-size: 24px;
+	font-weight: 500;
+	line-height: 24px;
+	color: var(--tertiary-color);
+}
+
+.header nav ul a:hover {
+	color: var(--secondary-color);
+}
