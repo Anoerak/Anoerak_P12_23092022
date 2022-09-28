@@ -1,0 +1,37 @@
+.scoreGraph {
+	width: 30.87%;
+	height: 100%;
+	background-color: var(--septenary-color);
+}
+
+.scoreGraph h3 {
+	position: absolute;
+	font-size: 15px;
+	font-weight: 500;
+	line-height: 24px;
+	margin-left: 1rem;
+}
+
+.scoreGraph__legend {
+	display: flex;
+	width: 95px;
+	flex-direction: column;
+	align-content: center;
+	justify-content: center;
+}
+
+.scoreGraph__legend .today__score {
+	font-size: 26px;
+	font-weight: 700;
+	line-height: 26px;
+	text-align: center;
+	color: var(--quaternary-color);
+}
+
+.scoreGraph__legend p {
+	font-size: 16px;
+	font-weight: 500;
+	line-height: 26px;
+	text-align: center;
+	color: var(--octonary-color);
+}

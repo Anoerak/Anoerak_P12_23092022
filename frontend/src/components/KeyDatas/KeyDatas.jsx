@@ -1,5 +1,7 @@
 import React, { useContext } from 'react';
 
+import './KeyDatas.css';
+
 import caloryImg from '../../assets/icons/calories_icon.svg';
 import carbsImg from '../../assets/icons/carbs_icon.svg';
 import fatImg from '../../assets/icons/fat_icon.svg';
@@ -13,14 +15,11 @@ import Loader from '../Loader/Loader';
 const KeyDatas = () => {
 	const [user] = useContext(UserContext);
 
-	const { data, isError, loading, errorMessage } = useFetch(`http://localhost:8080/user/`, user);
+	const { data, isError, loading, errorMessage } = useFetch(user);
 	const keyDatas = data.keyData;
-	const todayScore = data.todayScore;
-
-	console.log(keyDatas);
 
 	return (
-		<div>
+		<div className="keyDatas__container">
 			{isError ? (
 				<div className="error">
 					Une erreur est survenue lors du chargement des données clés : <br /> {isError && errorMessage}
@@ -30,30 +29,41 @@ const KeyDatas = () => {
 			) : (
 				<div className="keyDatas">
 					<div className="user__key__datas">
-						<h2>
+						<div>
 							<img src={caloryImg} alt="logo_calory" />
-							{keyDatas.calorieCount}kCal
-						</h2>
+						</div>
+						<div className="key__data__text">
+							<h2>{keyDatas.calorieCount}kCal</h2>
+							<span>Calories</span>
+						</div>
 					</div>
 					<div className="user__key__datas">
-						<h2>
+						<div>
 							<img src={proteinImg} alt="logo_protein" />
-							{keyDatas.proteinCount}g
-						</h2>
+						</div>
+						<div className="key__data__text">
+							<h2>{keyDatas.proteinCount}g</h2>
+							<span>Protéines</span>
+						</div>
 					</div>
 					<div className="user__key__datas">
-						<h2>
+						<div>
 							<img src={carbsImg} alt="logo_carbs" />
-							{keyDatas.carbohydrateCount}g
-						</h2>
+						</div>
+						<div className="key__data__text">
+							<h2>{keyDatas.carbohydrateCount}g</h2>
+							<span>Glucides</span>
+						</div>
 					</div>
 					<div className="user__key__datas">
-						<h2>
+						<div>
 							<img src={fatImg} alt="logo_fat" />
-							{keyDatas.lipidCount}g
-						</h2>
+						</div>
+						<div className="key__data__text">
+							<h2>{keyDatas.lipidCount}g</h2>
+							<span>Lipides</span>
+						</div>
 					</div>
-					<h3>Score = {todayScore}</h3>
 				</div>
 			)}
 		</div>

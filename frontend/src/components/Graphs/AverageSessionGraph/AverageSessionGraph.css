@@ -1,0 +1,45 @@
+.averageSessionGraph {
+	width: 30.87%;
+	height: 100%;
+	background-color: var(--secondary-color-light);
+	border-radius: 5px;
+}
+
+.averageSessionGraph h3 {
+	position: absolute;
+	margin-left: 1rem;
+	margin-top: 1rem;
+	font-size: 15px;
+	font-weight: 500;
+	line-height: 24px;
+	max-width: 147px;
+	color: rgba(255, 255, 255, 0.5);
+}
+
+.recharts-cartesian-axis-line,
+.recharts-cartesian-axis-tick-line {
+	stroke: none;
+}
+
+.recharts-tooltip-wrapper,
+.recharts-tooltip-wrapper:hover {
+	border: none;
+	outline: none;
+}
+
+.customTooltip {
+	background: var(--tertiary-color);
+	color: var(--quaternary-color);
+	padding: 5px;
+	text-align: left;
+}
+
+.tooltipDetails {
+	margin: 5px 5px;
+}
+
+.tooltipDetails .label {
+	color: var(--quaternary-color);
+	font-size: 8px;
+	font-weight: 500;
+}

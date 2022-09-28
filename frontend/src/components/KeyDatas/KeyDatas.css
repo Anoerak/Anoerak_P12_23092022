@@ -1,0 +1,44 @@
+.keyDatas__container {
+	max-width: 258px;
+	width: 25%;
+	display: flex;
+}
+
+.keyDatas {
+	width: 100%;
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.user__key__datas {
+	width: 226px;
+	height: 124px;
+	background: var(--septenary-color);
+	display: flex;
+	align-content: center;
+	justify-content: flex-start;
+	border-radius: 5px;
+	padding-left: 2rem;
+}
+.user__key__datas img {
+	width: 60px;
+	height: 60px;
+}
+
+.user__key__datas div {
+	display: flex;
+	align-content: center;
+	justify-content: center;
+	flex-direction: column;
+}
+
+.user__key__datas .key__data__text {
+	margin-left: 1rem;
+}
+
+.user__key__datas .key__data__text h2 {
+	width: 75%;
+	margin: 3px 0;
+}
