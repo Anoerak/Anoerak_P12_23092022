@@ -3,10 +3,10 @@
 ![forthebadge](https://forthebadge.com/images/badges/60-percent-of-the-time-works-every-time.svg)
 ![forthebadge](https://forthebadge.com/images/badges/made-with-javascript.svg)
 ![forthebadge](https://forthebadge.com/images/badges/uses-css.svg)
-![GitHub repo size](https://img.shields.io/github/repo-size/USER/REPOSITORY?style=plastic)
-![GitHub language count](https://img.shields.io/github/languages/count/USER/REPOSITORY?style=plastic)
-![GitHub top language](https://img.shields.io/github/languages/top/USER/REPOSITORY?style=plastic)
-![GitHub last commit](https://img.shields.io/github/last-commit/USER/REPOSITORY?color=red&style=plastic)
+![GitHub repo size](https://img.shields.io/github/repo-size/Anoerak/Proust_Sebastien_P12_23092022?style=plastic)
+![GitHub language count](https://img.shields.io/github/languages/count/Anoerak/Proust_Sebastien_P12_23092022?style=plastic)
+![GitHub top language](https://img.shields.io/github/languages/top/Anoerak/Proust_Sebastien_P12_23092022?style=plastic)
+![GitHub last commit](https://img.shields.io/github/last-commit/Anoerak/Proust_Sebastien_P12_23092022?color=red&style=plastic)
 
 ## SportWhat
 
