@@ -1,8 +1,8 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
+import { useParams } from 'react-router';
 
 import './Dashboard.css';
 
-import { useParams } from 'react-router';
 import useFetch from '../../utils/hooks/hook';
 import { UserContext } from '../../utils/context/userContext';
 
@@ -13,14 +13,43 @@ import PerformanceGraph from '../../components/Graphs/PerformanceGraph/Performan
 import ActivityGraph from '../../components/Graphs/ActivityGraph/ActivityGraph';
 import ScoreGraph from '../../components/Graphs/ScoreGraph/ScoreGraph';
 
+/**
+ * Dashboard page
+ * @returns {React.Component}  React component
+ */
 const Dashboard = () => {
+	/**
+	 * Get the user id from the url
+	 * @type {Object}
+	 */
 	const { id } = useParams();
 
 	const { data, isError, loading, errorMessage } = useFetch(id);
 	const user = data;
 	const error = errorMessage;
-	const [userId] = useContext(UserContext);
+	/**
+	 * Get the user from the context
+	 * @type {Object}
+	 * @property {Object} user
+	 * @property {Function} setUser
+	 */
+	const [userId, setUserId] = useContext(UserContext);
 
+	/**
+	 * Set the user id in the context
+	 * @returns {void}
+	 * @param {string} id - user id
+	 */
+	useEffect(() => {
+		setUserId(id);
+	}, [id, setUserId]);
+
+	/**
+	 * Display the loader if the data is loading
+	 * Display the error message if there is an error
+	 * Display the dashboard if the data is loaded
+	 * @returns {React.Component}  React component
+	 */
 	return (
 		<div key={userId} className="content">
 			{isError ? (

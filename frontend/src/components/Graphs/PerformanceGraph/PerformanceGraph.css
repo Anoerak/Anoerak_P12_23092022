@@ -1,4 +1,4 @@
-.performanceGraph {
+.performance__graph {
 	width: 30.87%;
 	height: 100%;
 	background-color: var(--quaternary-color);
@@ -7,8 +7,4 @@
 
 .recharts-polar-grid-angle {
 	display: none;
-}
-
-tspan {
-	font-size: 12px;
 }

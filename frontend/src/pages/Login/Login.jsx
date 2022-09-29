@@ -1,7 +1,5 @@
 import { Link } from 'react-router-dom';
-import { useState, useContext } from 'react';
-
-import { UserContext } from '../../utils/context/userContext';
+import { useState } from 'react';
 
 import SportSeeLogo from '../../assets/icons/sportsee_logo.svg';
 
@@ -18,15 +16,6 @@ const Login = () => {
 		return toggle;
 	};
 
-	/**
-	 * @param {string} userId
-	 */
-	const [userId, setUserId] = useContext(UserContext);
-	const contextUserId = (id) => {
-		setUserId(id);
-		return userId;
-	};
-
 	return (
 		<div className="login">
 			<img src={SportSeeLogo} alt="logo_SportSee" className="logo__SportSee" />
@@ -36,7 +25,6 @@ const Login = () => {
 						'user18'
 						// + mockedStatus
 					}
-					onClick={() => contextUserId(18)}
 					to={`/user/18`}
 				>
 					<img
@@ -52,7 +40,6 @@ const Login = () => {
 						// + mockedStatus
 					}
 					to="/user/12"
-					onClick={() => contextUserId(12)}
 				>
 					<img
 						src="https://doodleipsum.com/700/avatar?i=aaae4ac68a7288537c3192c776e5afab"

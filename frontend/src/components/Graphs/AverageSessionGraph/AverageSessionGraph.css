@@ -1,11 +1,11 @@
-.averageSessionGraph {
+.average__session__graph {
 	width: 30.87%;
 	height: 100%;
 	background-color: var(--secondary-color-light);
 	border-radius: 5px;
 }
 
-.averageSessionGraph h3 {
+.average__session__graph h3 {
 	position: absolute;
 	margin-left: 1rem;
 	margin-top: 1rem;
@@ -27,18 +27,18 @@
 	outline: none;
 }
 
-.customTooltip {
+.custom__tooltip__average {
 	background: var(--tertiary-color);
 	color: var(--quaternary-color);
 	padding: 5px;
 	text-align: left;
 }
 
-.tooltipDetails {
+.tooltip__details__average {
 	margin: 5px 5px;
 }
 
-.tooltipDetails .label {
+.tooltip__details__average .labelA {
 	color: var(--quaternary-color);
 	font-size: 8px;
 	font-weight: 500;

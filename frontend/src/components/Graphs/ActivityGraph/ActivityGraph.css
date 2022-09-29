@@ -1,13 +1,40 @@
-.activityGraph {
+.activity__graph {
 	width: 100%;
 	height: 50%;
 	background-color: var(--septenary-color);
 }
 
-.activityGraph h3 {
+.activity__graph h3 {
 	position: absolute;
 	font-size: 15px;
 	font-weight: 500;
 	line-height: 24px;
 	margin-left: 1rem;
+}
+
+.recharts-legend-item-text {
+	color: var(--octonary-color);
+}
+
+.legend-item-1 .recharts-symbols {
+	fill: var(--secondary-color);
+}
+
+.recharts-cartesian-axis-tick-value tspan {
+	font-size: 14px;
+	color: var(--octonary-color);
+}
+
+.custom__tooltip {
+	background: var(--secondary-color);
+	text-align: center;
+	width: 39px;
+	height: 63px;
+}
+
+.tooltip__details .label {
+	color: var(--tertiary-color);
+	font-size: 7px;
+	font-weight: 500;
+	line-height: 24px;
 }

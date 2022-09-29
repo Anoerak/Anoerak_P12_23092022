@@ -1,5 +1,6 @@
 import React, { useContext } from 'react';
-import { RadialBarChart, RadialBar, Legend, ResponsiveContainer } from 'recharts';
+import { RadialBarChart, RadialBar, PolarAngleAxis, Legend, ResponsiveContainer } from 'recharts';
+import PropTypes from 'prop-types';
 
 import useFetch from '../../../utils/hooks/hook';
 import { UserContext } from '../../../utils/context/userContext';
@@ -16,7 +17,7 @@ const ScoreGraph = () => {
 
 	const customizedLegend = () => {
 		return (
-			<div className="scoreGraph__legend">
+			<div className="score__graph__legend">
 				<span className="today__score">{data.todayScore * 100}%</span>
 				<p>de votre objectif</p>
 			</div>
@@ -30,26 +31,45 @@ const ScoreGraph = () => {
 		const processedData = todayScore.getTodayScore();
 		// console.log(processedData);
 		return (
-			<div className="scoreGraph">
+			<div className="score__graph">
 				<h3>Score</h3>
 				<ResponsiveContainer width={'100%'} aspect={3.9225 / 4.0}>
 					<RadialBarChart
 						cx="50%"
 						cy="50%"
-						innerRadius="70%"
-						outerRadius="100%"
-						barSize={(90, 10)}
+						innerRadius="75%"
+						outerRadius="85%"
 						startAngle={90}
 						endAngle={450}
 						data={processedData}
+						style={{ backgroundColor: '#FFFFFF', clipPath: 'circle(37.5% at 50% 50%)' }}
 					>
-						<RadialBar minAngle={100} background={false} clockWise dataKey="score" />
+						<PolarAngleAxis type="number" domain={[0, 100]} angleAxisId={0} tick={false} fill="#FFFFFF" />
+						<RadialBar
+							minAngle={100}
+							background={{ fill: '#FFFFFF' }}
+							cornerRadius={5}
+							clockWise
+							dataKey="score"
+							angleAxisId={0}
+							style={{ zIndex: 5 }}
+						/>
 						<Legend content={customizedLegend} layout="vertical" verticalAlign="middle" />
 					</RadialBarChart>
 				</ResponsiveContainer>
 			</div>
 		);
 	}
+};
+
+ScoreGraph.propTypes = {
+	processedData: PropTypes.arrayOf(
+		PropTypes.shape({
+			name: PropTypes.string,
+			score: PropTypes.number,
+			fill: PropTypes.string,
+		})
+	),
 };
 
 export default ScoreGraph;
