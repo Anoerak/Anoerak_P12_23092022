@@ -28,7 +28,7 @@ const ScoreGraph = () => {
 	} else {
 		const todayScore = new TodayScoreModel(data);
 		const processedData = todayScore.getTodayScore();
-		console.log(processedData);
+		// console.log(processedData);
 		return (
 			<div className="scoreGraph">
 				<h3>Score</h3>

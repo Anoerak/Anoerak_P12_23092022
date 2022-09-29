@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext } from 'react';
 
 import './Dashboard.css';
 
@@ -19,11 +19,7 @@ const Dashboard = () => {
 	const { data, isError, loading, errorMessage } = useFetch(id);
 	const user = data;
 	const error = errorMessage;
-	const [userId, setUserId] = useContext(UserContext);
-
-	useEffect(() => {
-		setUserId(id);
-	}, [id, setUserId]);
+	const [userId] = useContext(UserContext);
 
 	return (
 		<div key={userId} className="content">

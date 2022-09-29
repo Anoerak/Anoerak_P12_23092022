@@ -11,12 +11,12 @@ export class TodayScoreModel {
 			fill: '#FFFFFF',
 		};
 		let data = [
+			maxScore,
 			{
 				name: 'Score',
 				score: this.score * 100,
 				fill: '#FF0000',
 			},
-			maxScore,
 		];
 		return data;
 	}

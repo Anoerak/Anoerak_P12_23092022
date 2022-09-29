@@ -1,5 +1,7 @@
-import React from 'react';
-import { useLocation, useParams } from 'react-router';
+import React, { useContext } from 'react';
+import { useLocation } from 'react-router';
+
+import { UserContext } from '../../utils/context/userContext';
 
 import Header from '../../components/Header/Header';
 import VerticalMenu from '../../components/VerticalMenu/VerticalMenu';
@@ -10,7 +12,7 @@ import Dashboard from '../Dashboard/Dashboard';
 import './Home.css';
 
 const Home = () => {
-	const { id } = useParams();
+	const [user] = useContext(UserContext);
 	const { pathname } = useLocation();
 
 	return (
@@ -18,7 +20,7 @@ const Home = () => {
 			<Header />
 			<div className="main">
 				<VerticalMenu />
-				{pathname === `/user/${id}` ? <Dashboard /> : <Error />}
+				{pathname === `/user/${user}` ? <Dashboard /> : <Error />}
 			</div>
 		</div>
 	);

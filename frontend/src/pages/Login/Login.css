@@ -1,0 +1,103 @@
+.login {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: space-around;
+	width: 100%;
+	height: 100vh;
+	background-color: var(--primary-color);
+}
+
+.login .logo__SportSee {
+	position: absolute;
+	top: 18px;
+	left: 28px;
+	height: 3.8rem;
+}
+
+.login .users {
+	display: flex;
+	justify-content: space-around;
+	width: 80%;
+	margin-top: 5rem;
+}
+
+.login .users a {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	text-decoration: none;
+}
+
+.login .user__avatar {
+	width: 10rem;
+	height: 10rem;
+	background-color: var(--tertiary-color);
+	border-radius: 100%;
+	padding: 2rem;
+	transition: all 0.3s ease-in-out;
+}
+
+.login a:hover > .user__avatar {
+	cursor: pointer;
+	box-shadow: rgba(255, 0, 0, 0.5) 0px 0px 100px 30px;
+	transform: scale(1.1);
+}
+
+.login .users a:hover h2 {
+	color: var(--secondary-color);
+	transform: scale(1.1);
+}
+
+.login .users a h2 {
+	color: var(--tertiary-color);
+	font-size: 2rem;
+	transition: all 0.3s ease;
+}
+
+.login .datas__origin {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+}
+.login .datas__origin .toggle {
+	position: relative;
+	display: inline-block;
+	cursor: pointer;
+	width: 100px;
+	height: 52px;
+	background-color: var(--secondary-color);
+	border-radius: 30px;
+	border: none;
+}
+
+.login .datas__origin .toggle:after {
+	content: '';
+	position: absolute;
+	width: 50px;
+	height: 50px;
+	border-radius: 50%;
+	background-color: var(--tertiary-color);
+	top: 1px;
+	left: 1px;
+	transition: all 0.5s;
+}
+
+.login .datas__origin .checkbox:checked + .toggle::after {
+	left: 49px;
+}
+
+.login .datas__origin .checkbox:checked + .toggle {
+	background-color: green;
+}
+
+.login .datas__origin .checkbox {
+	display: none;
+}
+
+.login .datas__origin h3 {
+	font-size: 2rem;
+	color: var(--tertiary-color);
+}
