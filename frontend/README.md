@@ -1,3 +1,31 @@
+[![forthebadge](https://forthebadge.com/images/badges/60-percent-of-the-time-works-every-time.svg)](https://forthebadge.com) [![forthebadge](https://forthebadge.com/images/badges/made-with-javascript.svg)](https://forthebadge.com) [![forthebadge](https://forthebadge.com/images/badges/uses-css.svg)](https://forthebadge.com)
+
+# SportSee :
+
+SportSee aims to help you tracking your activities sessions by providing nice and user-friendly tools accessibles from your computer or smartphone.
+
+## Technologies
+
+-   JS
+-   CSS
+-   React
+-   HTML
+
+## Contribute to the project
+
+SportSee is an OpenClassroom Project available through the 'Web Application Developper' program.
+
+## Authors
+
+Thomas Dimnet
+Clara Corazza
+Nicolas Patschkowski
+Sébastien Proust
+
+## Licensing
+
+Not defined yet
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).

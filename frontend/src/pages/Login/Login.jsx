@@ -8,6 +8,10 @@ import './Login.css';
 const Login = () => {
 	const [toggle, setToggle] = useState(false);
 
+	/**
+	 * Store the type of datas to display in local storage (mocked or real datas)
+	 * @returns {void}
+	 */
 	let datasOrigin = () => {
 		!document.getElementById('switch').checked ? setToggle(false) : setToggle(true);
 		localStorage.getItem('mockedDatas') === 'true'
