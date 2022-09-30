@@ -12,9 +12,15 @@ import useFetch from '../../utils/hooks/hook';
 
 import Loader from '../Loader/Loader';
 
+/**
+ * Display the KeyDatas component
+ * @see module:useFetch
+ * @returns {React.Component} KeyDatas component
+ */
 const KeyDatas = () => {
 	const [user] = useContext(UserContext);
 
+	// Fetch the data from the backend based on the user id (params {user})
 	const { data, isError, loading, errorMessage } = useFetch(user);
 	const keyDatas = data.keyData;
 

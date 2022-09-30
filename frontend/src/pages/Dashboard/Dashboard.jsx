@@ -14,42 +14,28 @@ import ActivityGraph from '../../components/Graphs/ActivityGraph/ActivityGraph';
 import ScoreGraph from '../../components/Graphs/ScoreGraph/ScoreGraph';
 
 /**
- * Dashboard page
+ * Display the Dashboard component
+ * @see module:useFetch
  * @returns {React.Component}  React component
  */
 const Dashboard = () => {
-	/**
-	 * Get the user id from the url
-	 * @type {Object}
-	 */
+	/* Get the user id from the url */
 	const { id } = useParams();
 
+	/* Fetch the user data based on the user id (params {id}) */
 	const { data, isError, loading, errorMessage } = useFetch(id);
 	const user = data;
 	const error = errorMessage;
-	/**
-	 * Get the user from the context
-	 * @type {Object}
-	 * @property {Object} user
-	 * @property {Function} setUser
-	 */
+
+	/* Get the user data from the context */
 	const [userId, setUserId] = useContext(UserContext);
 
-	/**
-	 * Set the user id in the context
-	 * @returns {void}
-	 * @param {string} id - user id
-	 */
+	/* Set the user id in the context */
 	useEffect(() => {
 		setUserId(id);
 	}, [id, setUserId]);
 
-	/**
-	 * Display the loader if the data is loading
-	 * Display the error message if there is an error
-	 * Display the dashboard if the data is loaded
-	 * @returns {React.Component}  React component
-	 */
+	//
 	return (
 		<div key={userId} className="content">
 			{isError ? (

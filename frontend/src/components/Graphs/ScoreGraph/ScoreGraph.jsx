@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import { RadialBarChart, RadialBar, PolarAngleAxis, Legend, ResponsiveContainer } from 'recharts';
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
 
 import useFetch from '../../../utils/hooks/hook';
 import { UserContext } from '../../../utils/context/userContext';
@@ -11,6 +11,13 @@ import Loader from '../../Loader/Loader';
 
 import './ScoreGraph.css';
 
+/**
+ * Display the score graph
+ * @see module:useFetch
+ * @see module:TodayScoreModel
+ * @see {@link https://recharts.org/en-US/api/RadialBarChart}
+ * @returns {React.Component}  React component
+ */
 const ScoreGraph = () => {
 	const [userId] = useContext(UserContext);
 	const { data, loading } = useFetch(userId);
@@ -27,9 +34,17 @@ const ScoreGraph = () => {
 	if (loading === true) {
 		return <Loader />;
 	} else {
+		/**
+		 * Format the datas to get an array of objects with the following structure:
+		 * {name: 'Score', score: 'score*100', fill: 'hexcode for bar color'}
+		 * @module TodayScoreModel
+		 * @param {Array} datas - Datas to format
+		 * @returns {Array} Formatted datas
+		 */
 		const todayScore = new TodayScoreModel(data);
 		const processedData = todayScore.getTodayScore();
 		// console.log(processedData);
+
 		return (
 			<div className="score__graph">
 				<h3>Score</h3>
@@ -47,7 +62,7 @@ const ScoreGraph = () => {
 						<PolarAngleAxis type="number" domain={[0, 100]} angleAxisId={0} tick={false} fill="#FFFFFF" />
 						<RadialBar
 							minAngle={100}
-							background={{ fill: '#FFFFFF' }}
+							background={{ fill: '#FBFBFB' }}
 							cornerRadius={5}
 							clockWise
 							dataKey="score"
@@ -62,14 +77,14 @@ const ScoreGraph = () => {
 	}
 };
 
-ScoreGraph.propTypes = {
-	processedData: PropTypes.arrayOf(
-		PropTypes.shape({
-			name: PropTypes.string,
-			score: PropTypes.number,
-			fill: PropTypes.string,
-		})
-	),
-};
+// ScoreGraph.propTypes = {
+// 	processedData: PropTypes.arrayOf(
+// 		PropTypes.shape({
+// 			name: PropTypes.string,
+// 			score: PropTypes.number,
+// 			fill: PropTypes.string,
+// 		})
+// 	),
+// };
 
 export default ScoreGraph;

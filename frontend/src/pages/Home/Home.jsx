@@ -9,20 +9,15 @@ import Dashboard from '../Dashboard/Dashboard';
 
 import './Home.css';
 
+/**
+ * Display the Home component
+ * @returns {React.Component} Home component
+ */
 const Home = () => {
-	/**
-	 * Get the user id from the url
-	 * @type {Object}
-	 * @property {string} id - user id
-	 */
+	/* Get the user id from the url */
 	const { id } = useParams();
 
-	/**
-	 * Display the header
-	 * Display the vertical menu
-	 * Display the dashboard
-	 * @returns {React.Component}  React component
-	 */
+	/* Check if the user id is valid  and display the Dashboard / Error component */
 	return (
 		<div className="dashboard">
 			<Header />

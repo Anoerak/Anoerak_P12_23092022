@@ -9,6 +9,10 @@ import cyclingImg from '../../assets/icons/cycling.svg';
 
 import './VerticalMenu.css';
 
+/**
+ * Display the VerticalMenu component
+ * @returns {React.Component} VerticalMenu component
+ */
 const VerticalMenu = () => {
 	const [user] = useContext(UserContext);
 

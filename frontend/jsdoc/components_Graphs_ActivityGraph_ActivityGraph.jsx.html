@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: components/Graphs/ActivityGraph/ActivityGraph.jsx</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: components/Graphs/ActivityGraph/ActivityGraph.jsx</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import React, { useContext } from 'react';
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+// import PropTypes from 'prop-types';
+
+import useFetch from '../../../utils/hooks/hook';
+import { UserContext } from '../../../utils/context/userContext';
+
+import { ActivityModel } from '../../../models/ActivityModel';
+
+import Loader from '../../Loader/Loader';
+
+import './ActivityGraph.css';
+
+/**
+ * Display the ActivityGraph component
+ * @see module:useFetch
+ * @see module:ActivityModel
+ * @see {@link https://recharts.org/en-US/api/BarChart}
+ * @return {React.Component} React component
+ */
+const ActivityGraph = () => {
+	// Get the user id from the context
+	const [userId] = useContext(UserContext);
+	/**
+	 * Fetch the data from the backend
+	 * @module useFetch
+	 * @param {Object} userId - The userId of the user
+	 * @param {string} {optional} - The type of data to fetch (activity, average-sessions, performances)
+	 * @returns {Promise} - The data from the backend
+	 */
+	const { data, loading } = useFetch(userId, 'activity');
+
+	if (loading === true) {
+		return &lt;Loader />;
+	} else {
+		/**
+		 * Format the datas to get an array of objects with the following structure:
+		 * { name: 'date', weight: 'weight', calories: 'calories'}
+		 * @module ActivityModel
+		 * @param {Array} datas - Datas to format
+		 * @returns {Array} Formatted datas
+		 */
+		const activityDatas = new ActivityModel(data);
+		const processedData = activityDatas.getSessions();
+		// console.log(processedData);
+
+		const customTooltipFunction = ({ active, payload }) => {
+			if (active &amp;&amp; payload &amp;&amp; payload.length) {
+				return (
+					&lt;div className="custom__tooltip">
+						&lt;div className="tooltip__details">
+							&lt;p className="label">{payload[0].payload.weight}kg&lt;/p>
+							&lt;p className="label">{payload[0].payload.calories}Kcal&lt;/p>
+						&lt;/div>
+					&lt;/div>
+				);
+			}
+
+			return null;
+		};
+
+		return (
+			&lt;div className="activity__graph">
+				&lt;h3>Activité quotidienne&lt;/h3>
+				{/* Using a ratio for the ResponsiveContainer */}
+				&lt;ResponsiveContainer minWidth={'100%'} aspect={22.75 / 9}>
+					&lt;BarChart
+						barGap={8}
+						data={processedData}
+						margin={{
+							top: 100,
+							right: 30,
+							left: 43,
+							bottom: 20,
+						}}
+					>
+						{/* Removing the vertical line from the graph */}
+						&lt;CartesianGrid strokeDasharray="3 3" vertical={false} />
+						{/* Moving the first bars and the last bars to the left and to the right */}
+						&lt;XAxis dataKey="name" padding={{ left: -35, right: -35 }} tickMargin={16} />
+						{/* Setting the YAxis for the weight datas */}
+						&lt;YAxis
+							dataKey="weight"
+							orientation="right"
+							tickLine={false}
+							axisLine={false}
+							tickMargin={45}
+							minTickGap={27}
+							tick={{ strokeWidth: 14, fill: 'var(--octonary-color)' }}
+							interval={'preserveStartEnd'}
+							allowDecimals={false}
+							domain={['dataMin-1', 'dataMax+1']}
+							yAxisId={0}
+						/>
+						{/* Setting up the YAxis for the calories datas and hidding the line */}
+						&lt;YAxis dataKey="calories" hide={true} yAxisId={1} />
+						{/* Setting up and customizing the tooltip */}
+						&lt;Tooltip
+							content={customTooltipFunction}
+							offset={60}
+							allowEscapeViewBox={{ x: true, y: true }}
+							position={{ y: 80 }}
+						/>
+						{/* Customization of the ToolTip */}
+						&lt;Legend
+							verticalAlign="top"
+							align="right"
+							wrapperStyle={{ top: 35, right: 25 }}
+							payload={[
+								{
+									value: 'Poids (kg)',
+									type: 'circle',
+									id: 'weightActivity',
+								},
+								{
+									value: 'Calories brûlées (kcal)',
+									type: 'circle',
+									id: 'caloriesActivity',
+								},
+							]}
+						/>
+						{/* Customization of the bars (size, color, etc.) */}
+						&lt;Bar yAxisId={0} dataKey="weight" fill="#282D30" barSize={7} radius={[3, 3, 0, 0]} unit="kg" />
+						&lt;Bar
+							yAxisId={1}
+							dataKey="calories"
+							fill="#E60000"
+							barSize={7}
+							radius={[3, 3, 0, 0]}
+							unit="kcal"
+						/>
+					&lt;/BarChart>
+				&lt;/ResponsiveContainer>
+			&lt;/div>
+		);
+	}
+};
+
+// Defining the type of props expected
+// ActivityGraph.propTypes = {
+// 	processedData: PropTypes.arrayOf(
+// 		PropTypes.shape({
+// 			name: PropTypes.string.isRequired,
+// 			weight: PropTypes.number.isRequired,
+// 			calories: PropTypes.number.isRequired,
+// 		})
+// 	),
+// };
+
+export default ActivityGraph;
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-ActivityModel.html">ActivityModel</a></li><li><a href="module-AverageSessionModel.html">AverageSessionModel</a></li><li><a href="module-PerformanceModel.html">PerformanceModel</a></li><li><a href="module-TodayScoreModel.html">TodayScoreModel</a></li><li><a href="module-useFetch.html">useFetch</a></li></ul><h3>Global</h3><ul><li><a href="global.html#ActivityGraph">ActivityGraph</a></li><li><a href="global.html#ApiProvider">ApiProvider</a></li><li><a href="global.html#App">App</a></li><li><a href="global.html#AverageSessionGraph">AverageSessionGraph</a></li><li><a href="global.html#Dashboard">Dashboard</a></li><li><a href="global.html#Error">Error</a></li><li><a href="global.html#Header">Header</a></li><li><a href="global.html#Home">Home</a></li><li><a href="global.html#KeyDatas">KeyDatas</a></li><li><a href="global.html#Loader">Loader</a></li><li><a href="global.html#Login">Login</a></li><li><a href="global.html#PerformanceGraph">PerformanceGraph</a></li><li><a href="global.html#ScoreGraph">ScoreGraph</a></li><li><a href="global.html#useFetch">useFetch</a></li><li><a href="global.html#UserProvider">UserProvider</a></li><li><a href="global.html#VerticalMenu">VerticalMenu</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.11</a> on Fri Sep 30 2022 13:08:08 GMT+0200 (Central European Summer Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

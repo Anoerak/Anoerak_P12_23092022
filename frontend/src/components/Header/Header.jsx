@@ -8,6 +8,10 @@ import { UserContext } from '../../utils/context/userContext';
 
 import './Header.css';
 
+/**
+ * Display the Header component
+ * @returns {React.Component} Header component
+ */
 const Header = () => {
 	const [user] = useContext(UserContext);
 

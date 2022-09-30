@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
 
 import useFetch from '../../../utils/hooks/hook';
 import { UserContext } from '../../../utils/context/userContext';
@@ -12,33 +12,38 @@ import Loader from '../../Loader/Loader';
 import './ActivityGraph.css';
 
 /**
- * Display the activity graph
- * @returns {React.Component}  React component
+ * Display the ActivityGraph component
+ * @see module:useFetch
+ * @see module:ActivityModel
+ * @see {@link https://recharts.org/en-US/api/BarChart}
+ * @return {React.Component} React component
  */
 const ActivityGraph = () => {
 	// Get the user id from the context
 	const [userId] = useContext(UserContext);
-	// Get the datas from the API
+	/**
+	 * Fetch the data from the backend
+	 * @module useFetch
+	 * @param {Object} userId - The userId of the user
+	 * @param {string} {optional} - The type of data to fetch (activity, average-sessions, performances)
+	 * @returns {Promise} - The data from the backend
+	 */
 	const { data, loading } = useFetch(userId, 'activity');
 
 	if (loading === true) {
 		return <Loader />;
 	} else {
 		/**
-		 * Format the datas to display in the graph
-		 * @param {Array} datas  Datas to format
-		 * @returns {Array}  Formatted datas
+		 * Format the datas to get an array of objects with the following structure:
+		 * { name: 'date', weight: 'weight', calories: 'calories'}
+		 * @module ActivityModel
+		 * @param {Array} datas - Datas to format
+		 * @returns {Array} Formatted datas
 		 */
 		const activityDatas = new ActivityModel(data);
 		const processedData = activityDatas.getSessions();
 		// console.log(processedData);
 
-		/**
-		 * Customize the tooltip if the user hovers a bar in the graph
-		 * @param {Object} active Active bar
-		 * @param {Object} payload  Props of the tooltip
-		 * @returns {React.Component}  React component
-		 */
 		const customTooltipFunction = ({ active, payload }) => {
 			if (active && payload && payload.length) {
 				return (
@@ -54,10 +59,6 @@ const ActivityGraph = () => {
 			return null;
 		};
 
-		/**
-		 * Display the BarChart component from Recharts
-		 * @returns {React.Component}  React component
-		 */
 		return (
 			<div className="activity__graph">
 				<h3>Activité quotidienne</h3>
@@ -135,22 +136,15 @@ const ActivityGraph = () => {
 	}
 };
 
-/**
- * Define the props types of the component
- * @type {Object}
- * @property {arrayOf} processedData  Datas to display in the graph
- * @property {string} name Name of the bar
- * @property {number} weight Weight of the bar
- * @property {number} calories Calories of the bar
- */
-ActivityGraph.propTypes = {
-	processedData: PropTypes.arrayOf(
-		PropTypes.shape({
-			name: PropTypes.string.isRequired,
-			weight: PropTypes.number.isRequired,
-			calories: PropTypes.number.isRequired,
-		})
-	),
-};
+// Defining the type of props expected
+// ActivityGraph.propTypes = {
+// 	processedData: PropTypes.arrayOf(
+// 		PropTypes.shape({
+// 			name: PropTypes.string.isRequired,
+// 			weight: PropTypes.number.isRequired,
+// 			calories: PropTypes.number.isRequired,
+// 		})
+// 	),
+// };
 
 export default ActivityGraph;

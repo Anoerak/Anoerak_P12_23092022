@@ -8,6 +8,12 @@ import Home from './pages/Home/Home';
 import Error from './components/Error/Error';
 
 import './utils/styles/App.css';
+import React from 'react';
+
+/**
+ * Return a div that will contains the Login / Home / Error components
+ * @returns {React.ReactElement}
+ */
 
 function App() {
 	return (

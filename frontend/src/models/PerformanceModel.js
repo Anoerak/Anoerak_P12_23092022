@@ -39,9 +39,9 @@ export class PerformanceModel {
 
 		kindValues.forEach((kindValue) => {
 			datas.push({
-				subject: this.getTranslateKindString(Object.values(this.kind)[kindValue.kind - 1]),
-				A: kindValue.value,
-				fullMark: Math.max(...values),
+				type: this.getTranslateKindString(Object.values(this.kind)[kindValue.kind - 1]),
+				value: kindValue.value,
+				maxValue: Math.max(...values),
 			});
 		});
 		return datas.reverse();

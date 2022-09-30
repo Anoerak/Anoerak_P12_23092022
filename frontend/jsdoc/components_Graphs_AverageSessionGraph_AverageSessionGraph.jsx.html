@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: components/Graphs/AverageSessionGraph/AverageSessionGraph.jsx</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: components/Graphs/AverageSessionGraph/AverageSessionGraph.jsx</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import React, { useContext } from 'react';
+import { LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer, Rectangle } from 'recharts';
+// import PropTypes from 'prop-types';
+
+import useFetch from '../../../utils/hooks/hook';
+import { UserContext } from '../../../utils/context/userContext';
+
+import { AverageSessionModel } from '../../../models/AverageSessionModel';
+
+import Loader from '../../Loader/Loader';
+
+import './AverageSessionGraph.css';
+
+/**
+ * Display the average session graph
+ * @see module:useFetch
+ * @see module:AverageSessionModel
+ * @see {@link https://recharts.org/en-US/api/LineChart}
+ * @returns {React.Component} Average session graph
+ */
+
+const AverageSessionGraph = () => {
+	const [userId] = useContext(UserContext);
+	const { data, loading } = useFetch(userId, 'average-sessions');
+
+	if (loading === true) {
+		return &lt;Loader />;
+	} else {
+		/**
+		 * Format the datas to get an array of objects with the following structure:
+		 * { name: 'weekday', sessionLength: 'sessionLength'}
+		 * @module AverageSessionModel
+		 * @param {Array} datas  Datas to format
+		 * @returns {Array} Formatted datas
+		 */
+		const averageSessions = new AverageSessionModel(data);
+		const processedData = averageSessions.getProcessedDatas();
+
+		const CustomTooltip = ({ active, payload }) => {
+			if (active &amp;&amp; payload &amp;&amp; payload.length) {
+				return (
+					&lt;div className="custom__tooltip__average">
+						&lt;div className="tooltip__details__average">
+							&lt;p className="label__average">{payload[0].payload.sessionLength} min&lt;/p>
+						&lt;/div>
+					&lt;/div>
+				);
+			}
+
+			return null;
+		};
+
+		// Customize the area after the cursor when hovering the graph
+		const CustomCursorArea = ({ points }) => {
+			return &lt;Rectangle fill="#000000" opacity={0.1} x={points[0].x} width={300} height={300} />;
+		};
+
+		return (
+			&lt;div className="average__session__graph">
+				&lt;h3>Durée moyenne des sessions&lt;/h3>
+				&lt;ResponsiveContainer width={'100%'} aspect={3.9225 / 4.0}>
+					&lt;LineChart
+						data={processedData}
+						margin={{
+							top: 50,
+							right: -10,
+							left: -10,
+							bottom: 10,
+						}}
+					>
+						{/* Type of line, remove the dots, change the color and the width of the line */}
+						&lt;Line type="natural" dataKey="sessionLength" stroke="#FFFFFF" dot={false} />
+						&lt;XAxis dataKey="name" style={{ fill: 'rgba(255, 255, 255, 0.5' }} interval={0} />
+						{/* Hide the axis */}
+						&lt;YAxis hide={true} domain={['dataMin-10', 'dataMax + 5']} />
+						{/* Use the CustomToolTip &amp; CustomCursorArea and move the Tooptip 60px off from the cursor */}
+						&lt;Tooltip
+							content={&lt;CustomTooltip payload={processedData} />}
+							cursor={&lt;CustomCursorArea />}
+							// position={{ y: 50 }}
+							offset={-60}
+						/>
+					&lt;/LineChart>
+				&lt;/ResponsiveContainer>
+			&lt;/div>
+		);
+	}
+};
+
+// AverageSessionGraph.propTypes = {
+// 	processedData: PropTypes.arrayOf(
+// 		PropTypes.shape({
+// 			name: PropTypes.string,
+// 			sessionLength: PropTypes.number,
+// 		})
+// 	),
+// };
+
+export default AverageSessionGraph;
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-ActivityModel.html">ActivityModel</a></li><li><a href="module-AverageSessionModel.html">AverageSessionModel</a></li><li><a href="module-PerformanceModel.html">PerformanceModel</a></li><li><a href="module-TodayScoreModel.html">TodayScoreModel</a></li><li><a href="module-useFetch.html">useFetch</a></li></ul><h3>Global</h3><ul><li><a href="global.html#ActivityGraph">ActivityGraph</a></li><li><a href="global.html#ApiProvider">ApiProvider</a></li><li><a href="global.html#App">App</a></li><li><a href="global.html#AverageSessionGraph">AverageSessionGraph</a></li><li><a href="global.html#Dashboard">Dashboard</a></li><li><a href="global.html#Error">Error</a></li><li><a href="global.html#Header">Header</a></li><li><a href="global.html#Home">Home</a></li><li><a href="global.html#KeyDatas">KeyDatas</a></li><li><a href="global.html#Loader">Loader</a></li><li><a href="global.html#Login">Login</a></li><li><a href="global.html#PerformanceGraph">PerformanceGraph</a></li><li><a href="global.html#ScoreGraph">ScoreGraph</a></li><li><a href="global.html#useFetch">useFetch</a></li><li><a href="global.html#UserProvider">UserProvider</a></li><li><a href="global.html#VerticalMenu">VerticalMenu</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.11</a> on Fri Sep 30 2022 13:08:08 GMT+0200 (Central European Summer Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
