@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: pages/Dashboard/Dashboard.jsx</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: pages/Dashboard/Dashboard.jsx</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/* eslint-disable no-unused-vars */
+import React, { useContext, useEffect, useState } from 'react';
+import { useParams } from 'react-router';
+
+import './Dashboard.css';
+
+import { UserContext } from '../../utils/context/userContext';
+
+import Loader from '../../components/Loader/Loader';
+import KeyDatas from '../../components/KeyDatas/KeyDatas';
+import AverageSessionGraph from '../../components/Graphs/AverageSessionGraph/AverageSessionGraph';
+import PerformanceGraph from '../../components/Graphs/PerformanceGraph/PerformanceGraph';
+import ActivityGraph from '../../components/Graphs/ActivityGraph/ActivityGraph';
+import ScoreGraph from '../../components/Graphs/ScoreGraph/ScoreGraph';
+
+import { FetchDatas } from '../../API/fetchDatas';
+
+/**
+ * Display the Dashboard component
+ * @see module:ActivityGraphProps
+ * @see module:AverageSessionGraphProps
+ * @see module:PerformanceGraphProps
+ * @see module:TodayScoreGraphProps
+ * @returns {React.Component}  React component
+ */
+
+const Dashboard = () => {
+	/* Get the user id from the url */
+	const { id } = useParams();
+
+	/* Set the states for the props which will be passed to the components */
+	const [user, setUserDatas] = useState([]);
+	const [activity, setActivityDatas] = useState([]);
+	const [{ loading, isError, errorMessage }, setLoadingError] = useState({
+		loading: true,
+		isError: false,
+		errorMessage: '',
+	});
+	const [performance, setPerformanceDatas] = useState([]);
+	const [averageSession, setAverageSessionDatas] = useState([]);
+	const [todayScore, setTodayScoreDatas] = useState([]);
+
+	/* Get the user datas from the API and watch any change of the {id}*/
+	useEffect(() => {
+		const fetchDatas = new FetchDatas();
+
+		const userDatas = fetchDatas.getUserDatas(id);
+		const userDatasPromise = userDatas.then((data) => {
+			setUserDatas(data);
+			setLoadingError({ loading: data[1], isError: data[2], errorMessage: data[3] });
+		});
+
+		/* Get the activity datas from the API and watch any change of the {id}*/
+		const activityDatas = fetchDatas.getActivityDatas(id, 'activity');
+		const activityDatasPromise = activityDatas.then((activity) => {
+			setActivityDatas(activity);
+		});
+
+		/* Get the average-sessions datas from the API and watch any change of the {id}*/
+		const averageSessionDatas = fetchDatas.getActivityDatas(id, 'average-sessions');
+		const averageSessionDatasPromise = averageSessionDatas.then((sessions) => {
+			setAverageSessionDatas(sessions);
+		});
+
+		/* Get the performance datas from the API and watch any change of the {id}*/
+		const performanceDatas = fetchDatas.getActivityDatas(id, 'performance');
+		const performanceDatasPromise = performanceDatas.then((performance) => {
+			setPerformanceDatas(performance);
+		});
+
+		/* Get the today-score datas from the API and watch any change of the {id}*/
+		const todayScoreDatas = fetchDatas.getTodayScoreDatas(id);
+		const todayScoreDatasPromise = todayScoreDatas.then((todayScore) => {
+			setTodayScoreDatas(todayScore);
+		});
+	}, [id]);
+
+	/* Set the state for the userId from the UserContext */
+	const [userId, setUserId] = useContext(UserContext);
+
+	/* Watch for any change of the {userId} */
+	useEffect(() => {
+		setUserId(id);
+	}, [id, setUserId]);
+
+	//
+	return (
+		&lt;div key={userId} className="content">
+			{isError ? (
+				&lt;div className="error">
+					Une erreur est survenue lors du chargement des données : &lt;br /> {errorMessage &amp;&amp; errorMessage}
+				&lt;/div>
+			) : loading ? (
+				&lt;Loader />
+			) : (
+				&lt;div className="dashboard__screen">
+					&lt;div className="dashboard__header">
+						&lt;h1>
+							Bonjour &lt;span className="userName">{user[0].userInfos.firstName}&lt;/span>
+						&lt;/h1>
+						&lt;h2>Félicitations! Vous avez explosé vos objectifs hier 👏🏼&lt;/h2>
+					&lt;/div>
+					&lt;div className="dashboard__content">
+						&lt;div className="dashboard__graphs">
+							&lt;ActivityGraph
+								datas={activity}
+								loading={loading}
+								isError={isError}
+								errorMessage={errorMessage}
+							/>
+							&lt;div className="dashboard__graphs__bottom">
+								&lt;AverageSessionGraph
+									datas={averageSession}
+									loading={loading}
+									isError={isError}
+									errorMessage={errorMessage}
+								/>
+								&lt;PerformanceGraph
+									datas={performance}
+									loading={loading}
+									isError={isError}
+									errorMessage={errorMessage}
+								/>
+								&lt;ScoreGraph
+									datas={todayScore}
+									score={user[0].todayScore}
+									loading={loading}
+									isError={isError}
+									errorMessage={errorMessage}
+								/>
+							&lt;/div>
+						&lt;/div>
+						&lt;KeyDatas
+							datas={user[0].keyData}
+							loading={loading}
+							isError={isError}
+							errorMessage={errorMessage}
+						/>
+					&lt;/div>
+				&lt;/div>
+			)}
+		&lt;/div>
+	);
+};
+
+export default Dashboard;
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-ActivityGraphProps.html">ActivityGraphProps</a></li><li><a href="module-AverageSessionGraphProps.html">AverageSessionGraphProps</a></li><li><a href="module-KeyDatas.html">KeyDatas</a></li><li><a href="module-PerformanceGraphProps.html">PerformanceGraphProps</a></li><li><a href="module-TodayScoreGraphProps.html">TodayScoreGraphProps</a></li></ul><h3>Classes</h3><ul><li><a href="API.html">API</a></li><li><a href="FetchDatas.html">FetchDatas</a></li></ul><h3>Global</h3><ul><li><a href="global.html#ActivityGraph">ActivityGraph</a></li><li><a href="global.html#ApiProvider">ApiProvider</a></li><li><a href="global.html#App">App</a></li><li><a href="global.html#AverageSessionGraph">AverageSessionGraph</a></li><li><a href="global.html#Dashboard">Dashboard</a></li><li><a href="global.html#Error">Error</a></li><li><a href="global.html#Header">Header</a></li><li><a href="global.html#Home">Home</a></li><li><a href="global.html#KeyDatas">KeyDatas</a></li><li><a href="global.html#Loader">Loader</a></li><li><a href="global.html#Login">Login</a></li><li><a href="global.html#PerformanceGraph">PerformanceGraph</a></li><li><a href="global.html#ScoreGraph">ScoreGraph</a></li><li><a href="global.html#UserProvider">UserProvider</a></li><li><a href="global.html#VerticalMenu">VerticalMenu</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.11</a> on Mon Oct 03 2022 10:47:32 GMT+0200 (Central European Summer Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

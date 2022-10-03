@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: API/api.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: API/api.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import { ActivityModel } from '../models/ActivityModel';
+import { AverageSessionModel } from '../models/AverageSessionModel';
+import { PerformanceModel } from '../models/PerformanceModel';
+import { TodayScoreModel } from '../models/TodayScoreModel';
+
+/**
+ *
+ * Class API is a class that contains all the API calls and their respective
+ * models.
+ * @class API
+ * @param {number} id - The id of the user.
+ * @param {string} path - The type of data to be fetched.
+ *  (e.g. 'activity', 'performance', 'average-session', 'today-score')
+ * @returns {object} - The data fetched from the API.
+ *
+ */
+
+export class API {
+	constructor(id, path) {
+		/* The type of activity to be fetched. */
+		this.path = path;
+		/* The Boolean value that indicate the type of data to be fetched (API or Mocked). */
+		this.mockedStatus = localStorage.getItem('mockedDatas');
+		/* the url based on the mocked status and the parameters (with or without path). */
+		this.apiUrl =
+			path === undefined ? `http://localhost:8080/user/${id}` : `http://localhost:8080/user/${id}/${path}`;
+		this.mockedUrl = path === undefined ? `../../data/${id}/datas.json` : `../../data/${id}/${path}/datas.json`;
+		this.url = this.mockedStatus === 'true' ? this.mockedUrl : this.apiUrl;
+		/* The returned values from the API. */
+		this.datas = [];
+		this.loading = false;
+		this.error = false;
+		this.errorMessage = '';
+	}
+
+	/**
+	 *
+	 * Return the user datas from route '.../user/:id'.
+	 * @returns {array} The data fetched from the API.
+	 * @returns {boolean} The loading status of the API.
+	 * @returns {boolean} The error status of the API.
+	 * @returns {string} The error message of the API.
+	 *
+	 */
+	async getUserDatas() {
+		const fetchData = async () => {
+			try {
+				const response = await fetch(this.url);
+				const data = await response.json();
+				// console.log(data.data);
+				this.loading = false;
+				this.error = false;
+				this.errorMessage = '';
+				this.datas.push(data.data, this.loading, this.error, this.errorMessage);
+				return this.datas;
+			} catch (error) {
+				this.loading = false;
+				this.error = true;
+				this.errorMessage = error;
+				this.datas.push(this.datas, this.loading, this.error, this.errorMessage);
+			}
+		};
+		await fetchData();
+		return this.datas;
+	}
+
+	/**
+	 *
+	 * Return the user activity datas from '.../user/:id/activity' based on 'ActivityModel'.
+	 * @returns {object} The data fetched from the API.
+	 * @returns {boolean} The loading status of the API.
+	 * @returns {boolean} The error status of the API.
+	 * @returns {string} The error message of the API.
+	 *
+	 */
+	async getActivityDatas() {
+		const data = await this.getUserDatas();
+		const activityDatas = new ActivityModel(data);
+		const processedDatas = activityDatas.getSessions();
+		// console.log(processedDatas);
+		return processedDatas;
+	}
+
+	/**
+	 *
+	 * Return the user average session datas from '.../user/:id/average-sessions' based on 'AverageSessionModel'.
+	 * @returns {object} The data fetched from the API.
+	 * @returns {boolean} The loading status of the API.
+	 * @returns {boolean} The error status of the API.
+	 * @returns {string} The error message of the API.
+	 *
+	 */
+	async getAverageSessionDatas() {
+		const data = await this.getUserDatas();
+		const averageSessions = new AverageSessionModel(data);
+		const processedDatas = averageSessions.getProcessedDatas();
+		// console.log(processedDatas);
+		return processedDatas;
+	}
+
+	/**
+	 *
+	 * Return the user performance datas from '.../user/:id/performance' based on 'PerformanceModel'.
+	 * @returns {object} The data fetched from the API.
+	 * @returns {boolean} The loading status of the API.
+	 * @returns {boolean} The error status of the API.
+	 * @returns {string} The error message of the API.
+	 *
+	 */
+	async getPerformanceDatas() {
+		const data = await this.getUserDatas();
+		const performanceDatas = new PerformanceModel(data);
+		const processedDatas = performanceDatas.getProcessedDatas();
+		// console.log(processedDatas);
+		return processedDatas;
+	}
+
+	/**
+	 *
+	 * Return the user today score datas from '.../user/:id/today-score' based on 'TodayScoreModel'.
+	 * @returns {object} The data fetched from the API.
+	 * @returns {boolean} The loading status of the API.
+	 * @returns {boolean} The error status of the API.
+	 * @returns {string} The error message of the API.
+	 *
+	 */
+	async getTodayScoreDatas() {
+		const data = await this.getUserDatas();
+		const todayScoreDatas = new TodayScoreModel(data[0]);
+		const processedDatas = todayScoreDatas.getTodayScore();
+		// console.log(processedDatas);
+		return processedDatas;
+	}
+
+	/**
+	 * Global function which the user datas based on the 'path' value.
+	 * @returns {object} The data fetched from the API.
+	 * @returns {boolean} The loading status of the API.
+	 * @returns {boolean} The error status of the API.
+	 * @returns {string} The error message of the API.
+	 */
+	async getDatas() {
+		switch (this.path) {
+			case 'activity':
+				return await this.getActivityDatas();
+			case 'average-sessions':
+				return await this.getAverageSessionDatas();
+			case 'performance':
+				return await this.getPerformanceDatas();
+			case 'today-score':
+				return await this.getTodayScoreDatas();
+			default:
+				return this.getUserDatas();
+		}
+	}
+}
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-ActivityGraphProps.html">ActivityGraphProps</a></li><li><a href="module-AverageSessionGraphProps.html">AverageSessionGraphProps</a></li><li><a href="module-KeyDatas.html">KeyDatas</a></li><li><a href="module-PerformanceGraphProps.html">PerformanceGraphProps</a></li><li><a href="module-TodayScoreGraphProps.html">TodayScoreGraphProps</a></li></ul><h3>Classes</h3><ul><li><a href="API.html">API</a></li><li><a href="FetchDatas.html">FetchDatas</a></li></ul><h3>Global</h3><ul><li><a href="global.html#ActivityGraph">ActivityGraph</a></li><li><a href="global.html#ApiProvider">ApiProvider</a></li><li><a href="global.html#App">App</a></li><li><a href="global.html#AverageSessionGraph">AverageSessionGraph</a></li><li><a href="global.html#Dashboard">Dashboard</a></li><li><a href="global.html#Error">Error</a></li><li><a href="global.html#Header">Header</a></li><li><a href="global.html#Home">Home</a></li><li><a href="global.html#KeyDatas">KeyDatas</a></li><li><a href="global.html#Loader">Loader</a></li><li><a href="global.html#Login">Login</a></li><li><a href="global.html#PerformanceGraph">PerformanceGraph</a></li><li><a href="global.html#ScoreGraph">ScoreGraph</a></li><li><a href="global.html#UserProvider">UserProvider</a></li><li><a href="global.html#VerticalMenu">VerticalMenu</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.11</a> on Mon Oct 03 2022 10:47:32 GMT+0200 (Central European Summer Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

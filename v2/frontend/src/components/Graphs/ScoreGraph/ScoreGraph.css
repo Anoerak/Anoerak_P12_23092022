@@ -1,0 +1,41 @@
+.score__graph {
+	width: 30.87%;
+	height: 100%;
+	background-color: var(--septenary-color);
+	border-radius: 5px;
+}
+
+.score__graph h3 {
+	position: absolute;
+	font-size: 15px;
+	font-weight: 500;
+	line-height: 24px;
+	margin-left: 1rem;
+	margin-top: 5px;
+}
+
+.score__graph__legend {
+	display: flex;
+	width: 95px;
+	flex-direction: column;
+	align-content: center;
+	justify-content: center;
+}
+
+.score__graph__legend .today__score {
+	font-size: 26px;
+	font-weight: 700;
+	line-height: 26px;
+	text-align: center;
+	color: var(--quaternary-color);
+	margin-top: 10px;
+}
+
+.score__graph__legend p {
+	font-size: 16px;
+	font-weight: 500;
+	line-height: 26px;
+	text-align: center;
+	color: var(--octonary-color);
+	margin-top: 0;
+}
